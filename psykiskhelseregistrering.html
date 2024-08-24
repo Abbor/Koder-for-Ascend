@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang='no'>
+ <head>
+   <meta charset='utf-8'>
+   <title></title>
+   <style>
+
+body
+{
+  background-color: #98DFD6;
+}
+
+.overskrift
+{
+    width: 60%;
+    text-align: center;
+    margin: 30px auto;
+    background-color: #00235B;
+    padding: 20px;
+    border-radius: 10px ;
+    color: #FFDD83;
+    font-size: 50px;
+}
+
+.registrering
+{
+    width: 60%;
+    margin: auto;
+    background-color: #00235B;
+    padding: 20px;
+    border-radius: 10px ;
+    color: #FFDD83;
+   
+}
+
+
+
+label,input
+{
+    margin: 10px;
+}
+
+button
+{
+    height: 100px;
+    width: 100px;
+    background-color: #E21818;
+    color: #FFDD83;
+}
+
+
+.oversikt
+{
+    width: 82%;
+    margin: 30px auto;
+    background-color: #00235B;
+    padding: 20px;
+    border-radius: 10px ;
+    color: #FFDD83;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:center;
+}
+
+.sorterknapp
+{
+    margin: 10px;
+    text-align: center;
+    border: 3px solid #E21818;
+    width: 150px;
+    height: 50px;
+}
+
+
+.sorter
+{
+    margin: 10px;
+    text-align: center;
+    border: 3px solid #E21818;
+    width: 150px;
+    transition: 0.3s border;
+    transition: 0.3s background-color;
+
+}
+
+.sorter:hover
+{
+    transition: 0.3s border,;
+    transition: 0.3s background-color;
+    border: 3px solid #98DFD6;
+    background-color: #033179;
+    color: #edc554;
+}
+
+
+.output
+{
+    margin: 10px;
+    text-align: center;
+    border: 3px solid #E21818;
+    width: 150px;
+    padding-bottom: 8px;
+}
+
+
+.statistikk
+{
+    width: 70%;
+    margin: 60px auto;
+    background-color: #00235B;
+    padding: 20px;
+    border-radius: 10px ;
+    color: #FFDD83;
+    text-align: center;
+}
+
+th{
+    padding: 20px;
+    background-color: #98DFD6;
+    color:#E21818;
+    width: 120px;
+    height: 50px;
+    font-size: larger;
+}
+
+td
+{
+    padding: 20px;
+    background-color: #FFDD83;
+    color:#E21818;
+}
+
+table
+{
+    margin: auto;
+    border: 5px solid #E21818;
+}
+
+
+
+   </style>
+ </head>
+<body>
+
+<h1 class="overskrift">Psykisk helse undersøkelse for videregående elever</h1>
+
+<div class="registrering">
+<form onsubmit="RegistrerElev()">
+
+    <label>Hva er fornavnet ditt?</label><br><input type="text" id="inpFornavn" required><br><br>
+
+    <label>Hva er etternavnet ditt?</label><br><input type="text" id="inpEtternavn" required><br><br>
+    
+    <label>Hvilket trinn går du på?</label><br><input type="number" id="inpTrinn" required min="1" max="3"><br><br>
+    
+    <label>På en skala fra 0 til 10, hvor mye glede føler du i løpet av en vanlig uke?</label><br><input type="number" id="inpGlede" required min="0" max="10"><br><br>
+
+    <label>På en skala fra 0 til 10, hvor vanskelig er det for deg å stå opp på morgen?</label><br><input type="number" id="inpStaopp" required min="0" max="10"><br><br>
+
+    <label>På en skala fra 0 til 10, hvor ofte opplever du stress?</label><br><input type="number" id="inpStress" required min="0" max="10"><br><br>
+
+    <label>På en skala fra 0 til 10, hvor ofte opplever du selvmordstanker?</label><br><input type="number" id="inpSelvmord" required min="0" max="10"><br><br>
+
+    <button>Registrer</button>
+
+</form>
+</div>
+
+<div class="oversikt">
+
+<div class="sorter" onclick="sorternavn('fornavn')"><h1>Navn</h1></div>
+<div class="sorter" onclick="sorternavn('etternavn')"><h1>Etternavn</h1></div>
+<div class="sorter" onclick="sorter('trinn')"><h1>Trinn</h1></div>
+<div class="sorter" onclick="sorter('glede')"><h1>Glede</h1></div>
+<div class="sorter" onclick="sorter('staopp')"><h1>Stå Opp</h1></div>
+<div class="sorter" onclick="sorter('stress')"><h1>Stress</h1></div>
+<div class="sorter" onclick="sorter('selvmord')"><h1>Selvmord</h1></div>
+
+<br>
+
+<div class="output" id="output0"></div>
+<div class="output" id="output1"></div>
+<div class="output" id="output2"></div>
+<div class="output" id="output3"></div>
+<div class="output" id="output4"></div>
+<div class="output" id="output5"></div>
+<div class="output" id="output6"></div>
+
+</div>
+
+
+
+<div class="statistikk">
+<h1>Behøver Psykolog<br></h1>
+
+<p id="outputstatistikk"></p>
+
+</div>  
+
+<div class="statistikk">
+    <h1>Gjennomsnitt<br></h1>
+    
+    <table>
+            <tr>
+                <th>Gjennomsnittelig:</th>
+                <th>Glede</th>
+                <th>Vansker med å stå opp</th>
+                <th>Stress</th>
+                <th>Selvmordstanker</th>
+            </tr>
+        <tr>
+            <th>VG1:</th>
+            <td id="outputglede1" class="statsTall"></td>
+            <td id="outputstaopp1"></td>
+            <td id="outputstress1"></td>
+            <td id="outputselvmord1"></td>
+        </tr>
+
+        <tr>
+            <th>VG2:</th>
+            <td id="outputglede2"></td>
+            <td id="outputstaopp2"></td>
+            <td id="outputstress2"></td>
+            <td id="outputselvmord2"></td>
+        </tr>
+
+        <tr>
+            <th>VG3:</th>
+            <td id="outputglede3"></td>     
+            <td id="outputstaopp3"></td>    
+            <td id="outputstress3"></td>
+            <td id="outputselvmord3"></td>
+        </tr>
+
+        <tr>
+            <th>Total:</th>
+            <td id="outputgledetotal"></td>
+            <td id="outputstaopptotal"></td>
+            <td id="outputstresstotal"></td>
+            <td id="outputselvmordtotal"></td>
+        </tr>
+
+    </table>
+    </div>
+
+<script>
+let undersokelseliste = 
+[
+    {fornavn:"Benjamin",etternavn:"Gåserød",trinn:2,glede:2,staopp:8,stress:8,selvmord:3},
+    {fornavn:"Erling",etternavn:"Lindbo",trinn:1,glede:10,staopp:2,stress:3,selvmord:0},
+    {fornavn:"Mats",etternavn:"Gjennestad",trinn:2,glede:0,staopp:10,stress:10,selvmord:10},
+    {fornavn:"Oskar",etternavn:"Alvestad",trinn:1,glede:7,staopp:5,stress:5,selvmord:0},
+    {fornavn:"Elias",etternavn:"Åss",trinn:3,glede:3,staopp:1,stress:1,selvmord:7},
+    {fornavn:"Theo",etternavn:"Simonsen",trinn:3,glede:8,staopp:1,stress:1,selvmord:0},
+    {fornavn:"Chris",etternavn:"Svendsen",trinn:2,glede:5,staopp:5,stress:5,selvmord:2},
+]
+
+VisElever()
+
+
+function VisElever()
+{
+
+    for(i=0;i<7;i++)
+    {
+        document.getElementById('output'+i).innerHTML="";
+    }
+
+    for(i=0;i<undersokelseliste.length;i++)
+    {
+
+        document.getElementById('output0').innerHTML+="_______"+ "<br>"+ "<br>"+undersokelseliste[i].fornavn + "<br>" ;
+        document.getElementById('output1').innerHTML+="_______"+ "<br>"+ "<br>"+undersokelseliste[i].etternavn + "<br>" ;
+        document.getElementById('output2').innerHTML+="_______"+ "<br>"+ "<br>"+"VG"+undersokelseliste[i].trinn + "<br>" ;
+        document.getElementById('output3').innerHTML+="_______"+ "<br>"+ "<br>"+undersokelseliste[i].glede + "<br>" ;
+        document.getElementById('output4').innerHTML+="_______"+ "<br>"+ "<br>"+undersokelseliste[i].staopp + "<br>" ;
+        document.getElementById('output5').innerHTML+="_______"+ "<br>"+ "<br>"+undersokelseliste[i].stress + "<br>" ;
+        document.getElementById('output6').innerHTML+="_______"+ "<br>"+ "<br>"+undersokelseliste[i].selvmord + "<br>";
+    }
+
+    
+   
+    BehoverPsykolog();
+    Gjennomsnitt();
+    GjennomsnittFarge();
+}
+
+function sorternavn(navnvariabel)
+{
+    undersokelseliste.sort((a,b) => a[navnvariabel].toLowerCase().localeCompare(b[navnvariabel].toLowerCase()));
+    VisElever();
+}
+
+function sorter(variabel)
+{
+    undersokelseliste.sort((a,b) => a[variabel] - (b[variabel]));
+    VisElever();
+}
+
+
+function RegistrerElev()
+{
+    event.preventDefault();
+    fornavn = document.getElementById('inpFornavn').value 
+    etternavn = document.getElementById('inpEtternavn').value 
+    trinn = Number(document.getElementById('inpTrinn').value)
+    glede = Number(document.getElementById('inpGlede').value)
+    staopp = Number(document.getElementById('inpStaopp').value)
+    stress = Number(document.getElementById('inpStress').value)
+    selvmord = Number(document.getElementById('inpSelvmord').value)
+
+    let finnes = false; 
+
+    for(let i=0; i<undersokelseliste.length;i++)
+    {
+        if(etternavn == undersokelseliste[i].etternavn && fornavn == undersokelseliste[i].fornavn)
+        {
+            finnes = true;
+            break;
+        }
+    }
+
+    if(finnes == false)
+    {
+        undersokelseliste.push({fornavn:fornavn,etternavn:etternavn,trinn:trinn,glede:glede,staopp:staopp,stress:stress,selvmord:selvmord})
+
+        VisElever();
+    }
+    else
+    {
+        alert("Navnet finnes allerede")
+    }
+
+}
+
+
+function BehoverPsykolog()
+{
+
+    document.getElementById('outputstatistikk').innerHTML=""
+    for(let i=0;i<undersokelseliste.length;i++)
+    {
+        if(undersokelseliste[i].glede <= 2 || undersokelseliste[i].stress >= 7 || undersokelseliste[i].selvmord >= 5)
+        {
+            document.getElementById('outputstatistikk').innerHTML += undersokelseliste[i].fornavn + "&nbsp" + undersokelseliste[i].etternavn + " bør vurdere å skaffe seg en psykolog om allerede ikke har." + "<br>"
+        }
+    }
+
+}
+
+function Gjennomsnitt()
+{
+    let totalantallganger = 0;
+
+    let totalsumglede = 0;
+    let totalsumstaopp = 0;
+    let totalsumstress = 0;
+    let totalsumselvmord = 0;
+
+    let listeganersummerttrinn = [0,0,0,0]
+
+    let listesumtrinnglede = [0,0,0,0]
+    let listesumtrinnstaopp = [0,0,0,0]
+    let listesumtrinnstress = [0,0,0,0]
+    let listesumtrinnselvmord = [0,0,0,0]
+
+    for(let i=0;i<undersokelseliste.length;i++)
+    {
+        totalantallganger++;
+        
+        totalsumglede += undersokelseliste[i].glede;
+        totalsumstaopp += undersokelseliste[i].staopp;
+        totalsumstress += undersokelseliste[i].stress;
+        totalsumselvmord += undersokelseliste[i].selvmord;
+
+        listesumtrinnglede[undersokelseliste[i].trinn] += undersokelseliste[i].glede;
+        listesumtrinnstaopp[undersokelseliste[i].trinn] += undersokelseliste[i].staopp;
+        listesumtrinnstress[undersokelseliste[i].trinn] += undersokelseliste[i].stress;
+        listesumtrinnselvmord[undersokelseliste[i].trinn] += undersokelseliste[i].selvmord;
+
+        listeganersummerttrinn[undersokelseliste[i].trinn]++;
+    }
+
+    document.getElementById('outputgledetotal').innerHTML = (totalsumglede/totalantallganger).toFixed(2);
+    document.getElementById('outputstaopptotal').innerHTML = (totalsumstaopp/totalantallganger).toFixed(2);
+    document.getElementById('outputstresstotal').innerHTML =(totalsumstress/totalantallganger).toFixed(2);
+    document.getElementById('outputselvmordtotal').innerHTML = (totalsumselvmord/totalantallganger).toFixed(2);
+
+    console.log(listeganersummerttrinn,listesumtrinnglede,listesumtrinnstaopp,listesumtrinnstress,listesumtrinnselvmord)
+    
+
+    for(let i=1; i<listeganersummerttrinn.length;i++)
+    {
+        document.getElementById('outputglede'+i).innerHTML = (listesumtrinnglede[i]/listeganersummerttrinn[i]).toFixed(2);
+
+        document.getElementById('outputstaopp'+i).innerHTML = (listesumtrinnstaopp[i]/listeganersummerttrinn[i]).toFixed(2);
+
+        document.getElementById('outputstress'+i).innerHTML = (listesumtrinnstress[i]/listeganersummerttrinn[i]).toFixed(2);
+
+        document.getElementById('outputselvmord'+i).innerHTML = (listesumtrinnselvmord[i]/listeganersummerttrinn[i]).toFixed(2);
+    }
+}
+
+
+function GjennomsnittFarge()
+{
+    for(let i=1; i<4;i++)
+    {
+        glede = (document.getElementById(('outputglede'+i)).innerHTML);
+        staopp =(document.getElementById(('outputstaopp'+i)).innerHTML);
+        stress =(document.getElementById(('outputstress'+i)).innerHTML);
+        selvmord = (document.getElementById(('outputselvmord'+i)).innerHTML);
+
+        console.log(glede, staopp, stress, selvmord)
+
+
+        if(glede>5)
+        {
+            document.getElementById('outputglede'+i).style.color = "green";
+        }else if(glede>=4 && glede <=5)
+        {
+            document.getElementById('outputglede'+i).style.color = "orange";
+        }else
+        {
+            document.getElementById('outputglede'+i).style.color = "red";
+        }
+
+
+        if(staopp<=6)
+        {
+            document.getElementById('outputstaopp'+i).style.color = "green";
+        }else if(staopp>=6 && staopp<7)
+        {
+            document.getElementById('outputstaopp'+i).style.color = "orange";
+        }else
+        {
+            document.getElementById('outputstaopp'+i).style.color = "red";
+        }
+
+
+        if(stress<=6)
+        {
+            document.getElementById('outputstress'+i).style.color = "green";
+        }else if(stress>=6 && stress<7)
+        {
+            document.getElementById('outputstress'+i).style.color = "orange";
+        }else
+        {
+            document.getElementById('outputstress'+i).style.color = "red";
+        }
+
+
+        if(selvmord>=4)
+        {
+            document.getElementById('outputselvmord'+i).style.color = "red";
+        }else if(selvmord>=3&&selvmord<4)
+        {
+            document.getElementById('outputselvmord'+i).style.color = "orange";
+        }else
+        {
+            document.getElementById('outputselvmord'+i).style.color = "green";
+        }
+    }
+
+
+        gledetotal = (document.getElementById(('outputgledetotal')).innerHTML);
+        staopptotal =(document.getElementById(('outputstaopptotal')).innerHTML);
+        stresstotal =(document.getElementById(('outputstresstotal')).innerHTML);
+        selvmordtotal = (document.getElementById(('outputselvmordtotal')).innerHTML);
+
+        if(gledetotal>5)
+        {
+            document.getElementById('outputgledetotal').style.color = "green";
+        }else if(gledetotal>=4 && gledetotal <=5)
+        {
+            document.getElementById('outputgledetotal').style.color = "orange";
+        }else
+        {
+            document.getElementById('outputgledetotal').style.color = "red";
+        }
+
+
+        if(staopptotal<=6)
+        {
+            document.getElementById('outputstaopptotal').style.color = "green";
+        }else if(staopptotal>=6 && staopptotal<7)
+        {
+            document.getElementById('outputstaopptotal').style.color = "orange";
+        }else
+        {
+            document.getElementById('outputstaopptotal').style.color = "red";
+        }
+
+
+        if(stresstotal<=6)
+        {
+            document.getElementById('outputstresstotal').style.color = "green";
+        }else if(stresstotal>=6 && stresstotal<7)
+        {
+            document.getElementById('outputstresstotal').style.color = "orange";
+        }else
+        {
+            document.getElementById('outputstresstotal').style.color = "red";
+        }
+
+
+        if(selvmordtotal>=4)
+        {
+            document.getElementById('outputselvmordtotal').style.color = "red";
+        }else if(selvmordtotal>=3&&selvmordtotal<4)
+        {
+            document.getElementById('outputselvmordtotal').style.color = "orange";
+        }else
+        {
+            document.getElementById('outputselvmordtotal').style.color = "green";
+        }
+}
+
+
+</script>
+
+
+</body>
+</html>
